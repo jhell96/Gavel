@@ -24,13 +24,16 @@ def get_metadata():
 			tree = html.fromstring(page.content)
 
 			productTitle = ''
+			contributors = []
 
 			# load twice to fix problem with parser
 			for i in range(2):
 				productTitle = check_if_empty(tree.xpath('//span[@id="productTitle"]/text()')) 
+				contributors = tree.xpath('//a[@class="a-link-normal contributorNameID"]/text()')
 
 			# isbn_div = tree.xpath('//div[@id="isbn_feature_div"]/')
-			print "PRODUCT", productTitle
+			print "title:", productTitle
+			print "contributors:", contributors
 
 			return "DONE"
 		else:
