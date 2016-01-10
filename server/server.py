@@ -47,10 +47,10 @@ def get_metadata(metadata_url):
 
 			# load twice to fix problem with parser
 			for i in range(2):
-				productTitle = check_if_empty(tree.xpath('//span[@id="productTitle"]/text()')) 
+				productTitle = check_if_empty(tree.xpath('//span[@id="productTitle"]/text()'))
 				contributors = tree.xpath('//a[@class="a-link-normal contributorNameID"]/text()')
 				isbn = check_if_empty(tree.xpath('//li//b[contains(text(),"ISBN-10")]/../text()'))
-				
+
 				rating = check_if_empty(tree.xpath('//span[@class="reviewCountTextLinkedHistogram noUnderline"]/@title'))
 				rating = rating.replace(' out of ', ' ')
 				rating = rating.split(' ')[0]
@@ -91,14 +91,14 @@ def post_image_url():
 		# retrieve metadata from the urls
 		for url in metadata_urls:
 			temp = get_metadata(url)
-			if temp is not None:
+			if temp != '':
 				return temp
 				# break
 
 		return ''
 
 
-		
+
 
 
 if __name__ == "__main__":
