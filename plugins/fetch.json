@@ -6,5 +6,14 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "co.mwater.foregroundcameraplugin": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mWater/cordova-plugin-camera-foreground.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

@@ -30,6 +30,7 @@ function check() {
                     console.log("transition attempt");
                     window.location = 'results.html';
                 });
+                
 
             }
         });
