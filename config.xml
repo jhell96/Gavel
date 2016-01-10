@@ -7,7 +7,7 @@
     <author email="a@a.com" href="gavel.co">
         App Team </author>
     <content src="index.html" />
-    <plugin name="org.apache.cordova.camera" spec="0.3.6" source="pgb" />
+    <!--<plugin name="org.apache.cordova.camera" spec="0.3.6" source="pgb" />-->
     <plugin name="Camera" value="org.apache.cordova.CameraLauncher" />
     <feature name="http://api.phonegap.com/1.0/device" />
     <feature name="http://api.phonegap.com/1.0/battery" />
