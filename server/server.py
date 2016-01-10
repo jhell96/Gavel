@@ -102,4 +102,4 @@ def post_image_url():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
