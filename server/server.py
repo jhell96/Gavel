@@ -3,7 +3,7 @@ from lxml import html
 from flask import request
 from urlparse import urlparse
 import requests
-
+import json
 import urllib2
 from urllib2 import urlopen
 from cookielib import CookieJar
@@ -65,11 +65,19 @@ def get_metadata(metadata_url):
 			print "image url:", image_url
 			print "rating: ", rating
 
-			return [productTitle, contributors, isbn, rating, image_url]
+			data = {
+				'title': productTitle,
+				'contributors': contributors,
+				'isbn': isbn,
+				'rating': rating,
+				'image_url': image_url
+				}
+			json_str = json.dumps(data)
 
+			return json_str
 		else:
 			print "DENIED PARSING OF ", metadata_url
-			return None
+			return ''
 
 @app.route("/", methods=['GET'])
 def post_image_url():
@@ -81,15 +89,16 @@ def post_image_url():
 		metadata_urls = reverse_image_search(imgurl)
 
 		# retrieve metadata from the urls
-		metadata = []
 		for url in metadata_urls:
 			temp = get_metadata(url)
 			if temp is not None:
-				metadata.append(temp)
-				break
+				return temp
+				# break
+
+		return ''
 
 
-		return str(metadata)
+		
 
 
 if __name__ == "__main__":
