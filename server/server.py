@@ -43,19 +43,30 @@ def get_metadata(metadata_url):
 			productTitle = ''
 			contributors = []
 			isbn = ''
+			rating = ''
 
 			# load twice to fix problem with parser
 			for i in range(2):
 				productTitle = check_if_empty(tree.xpath('//span[@id="productTitle"]/text()')) 
 				contributors = tree.xpath('//a[@class="a-link-normal contributorNameID"]/text()')
 				isbn = check_if_empty(tree.xpath('//li//b[contains(text(),"ISBN-10")]/../text()'))
+				
+				rating = check_if_empty(tree.xpath('//span[@class="reviewCountTextLinkedHistogram noUnderline"]/@title'))
+				rating = rating.replace(' out of ', ' ')
+				rating = rating.split(' ')[0]
+				rating = rating.replace('.','-')
+				rating = rating.replace('-0','')
+
+				image_url = check_if_empty(tree.xpath('//div[@id="mainImageContainer"]//img/@src'))
 
 			# isbn_div = tree.xpath('//div[@id="isbn_feature_div"]/')
 			print "title:", productTitle
 			print "contributors:", contributors
 			print "ISBN:", isbn
+			print "image url:", image_url
+			print "rating: ", rating
 
-			return [productTitle, contributors, isbn]
+			return [productTitle, contributors, isbn, rating, image_url]
 
 		else:
 			print "DENIED PARSING OF ", metadata_url
