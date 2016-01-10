@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Let browser know website is optimized for mobile-->
+    <script src="cordova.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/parse-1.5.0.min.js"></script>
+    <script type="text/javascript" src="js/parse/parse-session.js"></script>
+    <style type="text/css">
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1 0 auto;
+        }
+        
+        nav li:hover {
+            background-color: #797979 !important;
+        }
+    </style>
+</head>
+
+<body class="blue-grey">
+    <main>
+        <div class="container">
+            <div style="width: 100%" class="left-align">
+                <img style="width: 30%; height: auto; max-width: 100px;" class="right" src="img/MoLe2.svg" />
+                <a href="#"><i class="material-icons" style="padding-top: 28px; padding-left: 8px; font-size: 42px; color: #ffcc00" onclick="$('.button-collapse').sideNav('show');">settings</i></a>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+        </div>
+        </div>
+    </main>
+</body>
+
+<footer class="page-footer" style="background-color: inherit">
+    <div class="content">
+
+        <div class="row">
+            <div class="col s12 center-align">
+                <div class="action-area ch50">
+                    
+<a class="waves-effect waves-yellow btn-large" style="width: 90%; background-color: #ffcc00; margin-bottom: 10px;" onclick="check()" id="capturePhotoButton"><i class="material-icons left">photo_camera</i>Take Photo</a>
+                    
+                    <a class="waves-effect waves-yellow btn-large" style="width: 90%; background-color: #ffcc00; margin-bottom: 10px;" onclick="check1()"><i class="material-icons left">collections</i>Use Photo from Gallery</a>
+                    
+                    <a class="waves-effect waves-yellow btn-large" style="width: 90%; background-color: #ffcc00; margin-bottom: 20px;" onclick="redir()"><i class="material-icons left">insert_chart</i>View History</a>
+                </div>
+            </div>
+        </div>
+</footer>
+
+<nav style="background-color: inherit; height: 0px;">
+    <ul id="slide-out" class="side-nav" style="left: 0px;background-color: #545151;">
+        <li><a href="#!" style="color: #D2B74C;"><i class="material-icons left" style="line-height: 60px;color: #E0E0CC;">edit</i>Edit Clinical Profile</a>
+        </li>
+        <li><a href="#!" style="color: #D2B74C;"><i class="material-icons left" style="line-height: 60px;color: #E0E0CC;">work</i>Manage Account</a>
+        </li>
+        <li><a href="#!" style="color: #D2B74C;"><i class="material-icons left" style="line-height: 60px;color: #E0E0CC;" onclick="logout()">person_outline</i>Logout</a>
+        </li>
+    </ul>
+    <a href="#" data-activates="slide-out" class="button-collapse hide"><i class="mdi-navigation-menu"></i></a>
+</nav>
+
+<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="materialize/js/materialize.js"></script>
+<script type="text/javascript" charset="utf-8" src="scripts/main.js"></script>
+<script type="text/javascript">
+    $(".button-collapse").sideNav();
+
+    function redir() {
+        window.location = 'history.html';
+
+    }
+</script>
+
+</html>
