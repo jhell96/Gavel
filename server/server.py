@@ -59,7 +59,6 @@ def get_metadata(metadata_url):
 
 				image_url = check_if_empty(tree.xpath('//div[@id="mainImageContainer"]//img/@src'))
 
-			# isbn_div = tree.xpath('//div[@id="isbn_feature_div"]/')
 			print "title:", productTitle
 			print "contributors:", contributors
 			print "ISBN:", isbn
