@@ -37,6 +37,11 @@ function onSuccess(imageDat) {
             console.log(url);
            //get or post to server, on response, go to results
            //window.location = 'results.html';
+           //localStorage.setItem('isbn', data['isbn'] + "");
+           //localStorage.setItem('title', data['title'] + "");
+           //localStorage.setItem('author', data['author'] + "");
+           //localStorage.setItem('rating', data['rating'] + "");
+           //localStorage.setItem('imgurl', data['image_url'] + "");
         }
     });
     //call todo something with image_data
