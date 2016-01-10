@@ -43,7 +43,7 @@ function onSuccess(imageDat) {
                 localStorage.setItem('author', json.contributors[0] + "");
                 localStorage.setItem('rating', json.rating + "");
                 localStorage.setItem('imgurl', json.image_url + "");
-                window.location = 'results.html';
+                window.location = '../results.html';
            });
 
         }
