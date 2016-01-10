@@ -1,35 +1,111 @@
 from flask import Flask
+from lxml import html
+from flask import request
+from urlparse import urlparse
+import requests
+import time
+import json
+import urllib2
+from urllib2 import urlopen
+from cookielib import CookieJar
+app = Flask(__name__)
 
-# print a nice greeting.
-def say_hello(username = "World"):
-    return '<p>Hello %s!</p>\n' % username
+def check_if_empty(elements):
+	if len(elements) < 1:
+		return ''
+	else:
+		return elements[0]
 
-# some bits of text for the page.
-header_text = '''
-    <html>\n<head> <title>EB Flask Test</title> </head>\n<body>'''
-instructions = '''
-    <p><em>Hint</em>: This is a RESTful web service! Append a username
-    to the URL (for example: <code>/Thelonious</code>) to say hello to
-    someone specific.</p>\n'''
-home_link = '<p><a href="/">Back</a></p>\n'
-footer_text = '</body>\n</html>'
+def reverse_image_search(image_url):
+	metadata_urls = []
 
-# EB looks for an 'application' callable by default.
-application = Flask(__name__)
+	cj = CookieJar()
+	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+	opener.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17')]
 
-# add a rule for the index page.
-application.add_url_rule('/', 'index', (lambda: header_text +
-    say_hello() + instructions + footer_text))
+	googlepath = 'http://google.com/searchbyimage?image_url='+image_url
 
-# add a rule when the page is accessed with a name appended to the site
-# URL.
-application.add_url_rule('/<username>', 'hello', (lambda username:
-    header_text + say_hello(username) + home_link + footer_text))
+	sourceCode = opener.open(googlepath).read()
+	#print sourceCode
+	tree = html.fromstring(sourceCode)
 
-# run the app.
+	metadata_urls = None;
+	while metadata_urls == None:
+                metadata_urls=tree.xpath('//h3[@class="r"]//a/@href')
+        print metadata_urls
+	return metadata_urls
+
+def get_metadata(metadata_url):
+		# Clean the url to scrape
+		domain = urlparse(metadata_url)[1].replace('www.','') #netloc
+
+		if domain == 'amazon.com':
+			print "IT'S AMAZON", metadata_url
+			# scrape the page
+			page = requests.get(metadata_url)
+			tree = html.fromstring(page.content)
+
+			productTitle = ''
+			contributors = []
+			isbn = ''
+			rating = ''
+
+			# load twice to fix problem with parser
+			for i in range(2):
+				productTitle = check_if_empty(tree.xpath('//span[@id="productTitle"]/text()')) 
+				contributors = tree.xpath('//a[@class="a-link-normal contributorNameID"]/text()')
+				isbn = check_if_empty(tree.xpath('//li//b[contains(text(),"ISBN-10")]/../text()'))
+				
+				rating = check_if_empty(tree.xpath('//span[@class="reviewCountTextLinkedHistogram noUnderline"]/@title'))
+				rating = rating.replace(' out of ', ' ')
+				rating = rating.split(' ')[0]
+				rating = rating.replace('.','-')
+				rating = rating.replace('-0','')
+
+				image_url = check_if_empty(tree.xpath('//div[@id="mainImageContainer"]//img/@src'))
+
+			print "title:", productTitle
+			print "contributors:", contributors
+			print "ISBN:", isbn
+			print "image url:", image_url
+			print "rating: ", rating
+
+			data = {
+				'title': productTitle,
+				'contributors': contributors,
+				'isbn': isbn,
+				'rating': rating,
+				'image_url': image_url
+				}
+			json_str = json.dumps(data)
+
+			return json_str
+		else:
+			print "DENIED PARSING OF ", metadata_url
+			return ''
+
+@app.route("/", methods=['GET'])
+def post_image_url():
+	if request.method == 'GET':
+		# Get incoming image url to reverse lookup
+		imgurl = request.args['url']
+
+		# get the list of metadata urls to perform parsing for
+		metadata_urls = reverse_image_search(imgurl)
+
+		# retrieve metadata from the urls
+		for url in metadata_urls:
+			temp = get_metadata(url)
+			print temp
+			if temp is not None:
+				return temp
+				# break
+
+		return ''
+
+
+		
+
+
 if __name__ == "__main__":
-    # Setting debug to True enables debug output. This line should be
-    # removed before deploying a production app.
-    application.debug = True
-    application.run()
-
+    app.run(debug=True)
