@@ -1,28 +1,19 @@
 function cameraRun() {
+    console.log("camera launched");
     navigator.camera.getPicture(onSuccess, onFail, {
         quality: 50,
         destinationType: Camera.DestinationType.DATA_URL
     });
 }
 
-function onFail(msg) {
-    var errorMsg = JSON.parse(msg.responseText);
-    if (errorMsg.Errors) {
-        $('#subtext').html("There was an error :(")
-        $('#wrapper').html("<p>Looks like " + errorMsg.Errors[0].Message + ".</p><a class='waves-effect waves-light btn' onclick='location.reload()'>Try again?</a>");
-        console.log(JSON.stringify(kairosJSON, null, "\t"));
+function onFail(message) {
+        alert('Failed because: ' + message);
+        console.log('failed '+ message);
     }
-}
 
 function onSuccess(imageDat) {
-    var image_data = imageDat;
-    image_data = String(image_data);
-    image_data = image_data.replace("data:image/jpg;base64,", "");
-    image_data = image_data.replace("data:image/png;base64,", "");
-    image_data = image_data.replace("data:image/gif;base64,", "");
-    image_data = image_data.replace("data:image/bmp;base64,", "");
-    var b64 = "data:image/jpeg;base64," + image_data;
-    console.log('start');
+    console.log("called");
+    var b64 = "data:image/jpeg;base64," + imageDat;
     $.post('https://api.cloudinary.com/v1_1/mole/image/upload', {
         file: b64,
         api_key: '838912264992939',
@@ -31,22 +22,22 @@ function onSuccess(imageDat) {
     }, function (data) {
         if (data.hasOwnProperty('error')) {
             alert('Upload failed.');
+            console.log("failure");
         } else {
             var urlOne = encodeURIComponent(data['url']);
             var url = encodeURIComponent(urlOne);
-            console.log(url);
-           
-           $.get('http://seblopezcot.pythonanywhere.com/?url='+url, function(data){
+            alert("got URL "+ 'http://seblopezcot.pythonanywhere.com/?url='+data['url']);
+           $.get('http://seblopezcot.pythonanywhere.com/?url='+data['url'], function(data){
                 json = JSON.parse(data);
                 localStorage.setItem('isbn', json.isbn + "");
                 localStorage.setItem('title', json.title + "");
                 localStorage.setItem('author', json.contributors[0] + "");
                 localStorage.setItem('rating', json.rating + "");
                 localStorage.setItem('imgurl', json.image_url + "");
-                window.location = '../results.html';
+                //window.location = 'results.html';
+                alert("here");
            });
 
         }
     });
-    //call todo something with image_data
 }
