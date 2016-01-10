@@ -36,11 +36,16 @@
                 <div class="col s12 center-align">
                     <h4 id="main-txt" class="white-text" style="font-family: baskerville, serif;">Judge any book just by photographing its cover!</h4>
                 </div>
+                <div class="col s12 center-align" id="loader">
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
     <footer class="page-footer grey darken-4" style="margin-top: 0px; padding-top: 0px;">
-        <div class="row center-align">
+        <div class="row center-align" id="check-btn">
             <a class="waves-effect waves-light btn-large white" style="min-width: 275px" onclick="check()" id="capturePhotoButton"><span class="black-text">Take Photo</span></a>
         </div>
     </footer>
