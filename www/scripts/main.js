@@ -1,5 +1,7 @@
 function check() {
     console.log('here');
+    $("#loader").show();
+    $("#check-btn").hide();
     navigator.camera.getPicture(onSuccess, onFail, {
         quality: 50,
         destinationType: Camera.DestinationType.DATA_URL,
@@ -59,3 +61,7 @@ function check() {
         alert('Failed because: ' + message);
     }
 }
+
+$(document).ready(function() {
+    $("#loader").hide();
+});
