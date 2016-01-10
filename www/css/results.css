@@ -1,0 +1,115 @@
+.a-star-5 {
+    background-position: -5px -368px;
+}
+
+.a-star-4-5 {
+    background-position: -175px -368px;
+}
+
+.a-star-4 {
+    background-position: -21px -368px;
+}
+
+.a-star-3-5 {
+    background-position: -191px -368px;
+}
+
+.a-star-3 {
+    background-position: -37px -368px;
+}
+
+.a-star-2-5 {
+    background-position: -207px -368px;
+}
+
+.a-star-2 {
+    background-position: -53px -368px;
+}
+
+.a-star-1-5 {
+    background-position: -223px -368px;
+}
+
+.a-star-1 {
+    background-position: -69px -368px;
+}
+
+.a-icon-star {
+    width: 80px;
+    height: 18px;
+}
+
+.a-icon-star,
+.a-icon-star-medium,
+.a-icon-star-mini,
+.a-icon-star-small {
+    position: relative;
+    vertical-align: text-top;
+}
+
+.a-icon,
+.a-link-emphasis:after {
+    background-image: url(http://g-ecx.images-amazon.com/images/G/01/AUIClients/AmazonUIBaseCSS-sprite_1x-8fe8c701c7a6f38368f97a8a3f04d5f25875be4d._V2_.png);
+    -webkit-background-size: 400px 650px;
+    background-size: 400px 650px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#goodreads-widget {
+    font-family: georgia, serif;
+    width: 100%;
+}
+
+#goodreads-widget h1 {
+    font-weight: normal;
+    font-size: 16px;
+    border-bottom: 1px solid #BBB596;
+    margin-bottom: 0;
+}
+
+#goodreads-widget a {
+    text-decoration: none;
+    color: #660;
+}
+
+iframe {
+    background-color: #fff;
+}
+
+#goodreads-widget a:hover {
+    text-decoration: underline;
+}
+
+#goodreads-widget a:active {
+    color: #660;
+}
+
+#gr_footer {
+    width: 100%;
+    border-top: 1px solid #BBB596;
+    text-align: right;
+}
+
+#goodreads-widget .gr_branding {
+    color: #382110;
+    font-size: 11px;
+    text-decoration: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.sprite-icon {
+    background-image: url(http://a1.nyt.com/assets/collection/20160108-145424/images/sprite/sprite-no-repeat.svg);
+}
+
+.icon {
+    background-repeat: no-repeat;
+    background-position: -180px -241px;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    line-height: 0;
+    vertical-align: middle;
+    font-style: normal;
+}
