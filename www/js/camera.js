@@ -21,7 +21,7 @@ function onSuccess(imageDat) {
     image_data = image_data.replace("data:image/png;base64,", "");
     image_data = image_data.replace("data:image/gif;base64,", "");
     image_data = image_data.replace("data:image/bmp;base64,", "");
-    var b64 = "data:image/jpeg;base64," + imageData;
+    var b64 = "data:image/jpeg;base64," + image_data;
     console.log('start');
     $.post('https://api.cloudinary.com/v1_1/mole/image/upload', {
         file: b64,
