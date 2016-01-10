@@ -3,6 +3,10 @@ from lxml import html
 from flask import request
 from urlparse import urlparse
 import requests
+
+import urllib2
+from urllib2 import urlopen
+from cookielib import CookieJar
 app = Flask(__name__)
 
 def check_if_empty(elements):
@@ -11,16 +15,29 @@ def check_if_empty(elements):
 	else:
 		return elements[0]
 
-@app.route("/", methods=['GET'])
-def get_metadata():
-	if request.method == 'GET':
+def reverse_image_search(image_url):
+	metadata_urls = []
+
+	cj = CookieJar()
+	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+	opener.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1312.27 Safari/537.17')]
+
+	googlepath = 'http://google.com/searchbyimage?image_url='+image_url
+
+	sourceCode = opener.open(googlepath).read()
+	tree = html.fromstring(sourceCode)
+	metadata_urls = tree.xpath('//h3[@class="r"]//a/@href')
+
+	return metadata_urls
+
+def get_metadata(metadata_url):
 		# Clean the url to scrape
-		scrape_url = request.args['url']
-		domain = urlparse(scrape_url)[1].replace('www.','') #netloc
+		domain = urlparse(metadata_url)[1].replace('www.','') #netloc
 
 		if domain == 'amazon.com':
+			print "IT'S AMAZON", metadata_url
 			# scrape the page
-			page = requests.get(scrape_url)
+			page = requests.get(metadata_url)
 			tree = html.fromstring(page.content)
 
 			productTitle = ''
@@ -35,11 +52,31 @@ def get_metadata():
 			print "title:", productTitle
 			print "contributors:", contributors
 
-			return "DONE"
-		else:
-			print "DENIED PARSING OF ", scrape_url
+			return [productTitle, contributors]
 
+		else:
+			print "DENIED PARSING OF ", metadata_url
+			return None
+
+@app.route("/", methods=['GET'])
+def post_image_url():
+	if request.method == 'GET':
+		# Get incoming image url to reverse lookup
+		imgurl = request.args['url']
+
+		# get the list of metadata urls to perform parsing for
+		metadata_urls = reverse_image_search(imgurl)
+
+		# retrieve metadata from the urls
+		metadata = []
+		for url in metadata_urls:
+			temp = get_metadata(url)
+			if temp is not None:
+				metadata.append(temp)
+
+
+		return str(metadata)
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=False)
