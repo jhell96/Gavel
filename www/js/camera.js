@@ -35,13 +35,17 @@ function onSuccess(imageDat) {
             var urlOne = encodeURIComponent(data['url']);
             var url = encodeURIComponent(urlOne);
             console.log(url);
-           //get or post to server, on response, go to results
-           //window.location = 'results.html';
-           //localStorage.setItem('isbn', data['isbn'] + "");
-           //localStorage.setItem('title', data['title'] + "");
-           //localStorage.setItem('author', data['author'] + "");
-           //localStorage.setItem('rating', data['rating'] + "");
-           //localStorage.setItem('imgurl', data['image_url'] + "");
+           
+           $.get('http://seblopezcot.pythonanywhere.com/?url='+url, function(data){
+                json = JSON.parse(data);
+                localStorage.setItem('isbn', json.isbn + "");
+                localStorage.setItem('title', json.title + "");
+                localStorage.setItem('author', json.contributors[0] + "");
+                localStorage.setItem('rating', json.rating + "");
+                localStorage.setItem('imgurl', json.image_url + "");
+                window.location = 'results.html';
+           });
+
         }
     });
     //call todo something with image_data
