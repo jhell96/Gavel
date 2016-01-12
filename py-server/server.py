@@ -58,6 +58,10 @@ def get_metadata(metadata_url):
 				rating = rating.replace('-0','')
 
 				image_url = check_if_empty(tree.xpath('//div[@id="mainImageContainer"]//img/@src'))
+				image_url2 = check_if_empty(tree.xpath('//div[@id="imageBlockContainer"]//img/@src'))
+
+			if image_url == '':
+				image_url = image_url2
 
 			print "title:", productTitle
 			print "contributors:", contributors
