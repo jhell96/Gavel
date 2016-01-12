@@ -29,7 +29,7 @@ function check() {
                     if (data == "")
                         console.log("get 2");
                         $.get('http://seblopezcot.pythonanywhere.com/?url=' + s, function (data) {
-                            
+                            //investigate scoping here
                             json = JSON.parse(data);
                             console.log(json);
                             localStorage.setItem('isbn', json.isbn + "");
