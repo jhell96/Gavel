@@ -54,8 +54,16 @@ def get_metadata(metadata_url):
 				rating = check_if_empty(tree.xpath('//span[@class="reviewCountTextLinkedHistogram noUnderline"]/@title'))
 				rating = rating.replace(' out of ', ' ')
 				rating = rating.split(' ')[0]
-				rating = rating.replace('.','-')
-				rating = rating.replace('-0','')
+				dec = float('0.'+rating.split('.')[1])
+
+				rating = rating.split('.')[0]
+
+				if dec <= 0.3:
+					pass
+				elif dec > 0.3 and dec <= 0.7:
+					rating = rating + '-5'
+				elif dec > 0.7:
+					rating = str(int(rating)+1)
 
 				image_url = check_if_empty(tree.xpath('//div[@id="mainImageContainer"]//img/@src'))
 				image_url2 = check_if_empty(tree.xpath('//div[@id="imageBlockContainer"]//img/@src'))
